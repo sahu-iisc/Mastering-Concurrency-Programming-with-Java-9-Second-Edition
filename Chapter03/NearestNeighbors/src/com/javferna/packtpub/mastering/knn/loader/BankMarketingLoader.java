@@ -12,24 +12,14 @@ import java.util.List;
 
 import com.javferna.packtpub.mastering.knn.data.BankMarketing;
 
-/**
- * Class that loads the examples of the Bank Marketing data set from a file
- * @author author
- *
- */
+
 public class BankMarketingLoader {
 
-	/**
-	 * Method that loads the examples of the Bank Marketing data set from a file
-	 * @param dataPath Path to the file where the data items are stored
-	 * @return List of BankMarketing examples
-	 */
 	public List<BankMarketing> load (String dataPath) {
 		Path file=Paths.get(dataPath);
 		List<BankMarketing> dataSet=new ArrayList<>();
 		try (InputStream in = Files.newInputStream(file);
-			    BufferedReader reader =
-			      new BufferedReader(new InputStreamReader(in))) {
+			    BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
 			    String line = null;
 			    while ((line = reader.readLine()) != null) {
 			    	String data[]=line.split(";");

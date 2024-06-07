@@ -12,45 +12,14 @@ import java.util.concurrent.ThreadPoolExecutor;
 import com.javferna.packtpub.mastering.knn.data.Distance;
 import com.javferna.packtpub.mastering.knn.data.Sample;
 
-/**
- * Coarse-grained concurrent version of the Knn algorithm
- * @author author
- *
- */
 public class KnnClassifierParallelGroup {
 
-	/**
-	 * Train data
-	 */
 	private List<? extends Sample> dataSet;
-	
-	/**
-	 * K parameter
-	 */
 	private int k;
-	
-	/**
-	 * Executor to execute the concurrent tasks
-	 */
 	private ThreadPoolExecutor executor;
-	
-	/**
-	 * Number of threads to configure the executor
-	 */
 	private int numThreads;
-	
-	/**
-	 * Check to indicate if we use the serial or the parallel sorting
-	 */
 	private boolean parallelSort;
-	
-	/**
-	 * Constructor of the class. Initialize the internal data
-	 * @param dataSet Train data set
-	 * @param k K parameter
-	 * @param factor Factor of increment of the number of cores
-	 * @param parallelSort Check to indicate if we use the serial or the parallel sorting
-	 */
+
 	public KnnClassifierParallelGroup(List<? extends Sample> dataSet, int k, int factor, boolean parallelSort) {
 		this.dataSet=dataSet;
 		this.k=k;
@@ -59,12 +28,6 @@ public class KnnClassifierParallelGroup {
 		this.parallelSort=parallelSort;
 	}
 	
-	/**
-	 * Method that classify an example
-	 * @param example Example to classify
-	 * @return Class or tag of the example
-	 * @throws Exception Exception if something goes wrong
-	 */
 	public String classify (Sample example) throws Exception {
 		
 		Distance[] distances=new Distance[dataSet.size()];
@@ -81,8 +44,7 @@ public class KnnClassifierParallelGroup {
 			} else {
 				endIndex=dataSet.size();
 			}
-			executor.execute(task);
-			
+			executor.execute(task);			
 		}
 		endControler.await();
 
@@ -103,9 +65,7 @@ public class KnnClassifierParallelGroup {
 			    Map.Entry.comparingByValue()).getKey();
 	}
 	
-	/**
-	 * Method that finish the execution of the executor
-	 */
+
 	public void destroy() {
 		executor.shutdown();
 	}

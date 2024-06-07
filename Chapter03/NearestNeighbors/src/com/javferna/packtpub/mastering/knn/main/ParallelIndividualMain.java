@@ -1,11 +1,12 @@
 package com.javferna.packtpub.mastering.knn.main;
 
-import java.util.Date;
 import java.util.List;
 
 import com.javferna.packtpub.mastering.knn.data.BankMarketing;
 import com.javferna.packtpub.mastering.knn.loader.BankMarketingLoader;
 import com.javferna.packtpub.mastering.knn.parallel.individual.KnnClassifierParallelIndividual;
+
+import TimerUtil.Timer;
 
 /**
  * Main class that launches the tests using the  fine-grained concurrent version and serial sorting
@@ -31,11 +32,10 @@ public class ParallelIndividualMain {
 		
 		success = 0;
 		mistakes = 0;
-		KnnClassifierParallelIndividual classifier = new KnnClassifierParallelIndividual(
-				train, k, 1, false);
+		Timer timer = new Timer();
+		KnnClassifierParallelIndividual classifier = new KnnClassifierParallelIndividual(train, k, 1, false);
 		try {
-			Date start, end;
-			start = new Date();
+			timer.start();
 			for (BankMarketing example : test) {
 				String tag = classifier.classify(example);
 				if (tag.equals(example.getTag())) {
@@ -44,9 +44,7 @@ public class ParallelIndividualMain {
 					mistakes++;
 				}
 			}
-			end = new Date();
-
-			currentTime = end.getTime() - start.getTime();
+			timer.end();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -56,8 +54,7 @@ public class ParallelIndividualMain {
 				+ " - Factor 1 - Parallel Sort: false");
 		System.out.println("Success: " + success);
 		System.out.println("Mistakes: " + mistakes);
-		System.out.println("Execution Time: " + (currentTime / 1000)
-				+ " seconds.");
+		System.out.println("Execution Time: " + timer.getTotalTime() + " seconds.");
 		System.out.println("******************************************");
 
 	}
